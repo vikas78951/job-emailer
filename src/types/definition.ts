@@ -1,6 +1,8 @@
-export type Company = {
+ export type Company = {
   id: string;
-  status: boolean;
-  email: string;
   name: string;
+  email: string;
+  status?: boolean;
+  contactPerson?: string;
+  industry?: string;
 };

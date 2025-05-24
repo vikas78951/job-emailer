@@ -1,13 +1,7 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 
-export type Company = {
-  id: string;
-  name: string;
-  email: string;
-  status: boolean;
-};
-
+import type { Company } from "../types/definition";
 interface CompanyStore {
   companies: Company[];
   isLoading: boolean;
@@ -29,11 +23,10 @@ export const useCompanyStore = create<CompanyStore>()(
           const res = await fetch("/api/companies");
           const json = await res.json();
           if (json.success) {
-             const filtered = (json.companies ?? []).filter(Boolean);
+            const filtered = (json.companies ?? []).filter(Boolean);
             set({ companies: filtered });
-            
-          }else{
-            set({ companies:[] });
+          } else {
+            set({ companies: [] });
           }
         } catch (err) {
           console.error("Error fetching companies:", err);
@@ -49,7 +42,7 @@ export const useCompanyStore = create<CompanyStore>()(
         });
 
         const json = await res.json();
-        console.log('json',json.companies)
+        console.log("json", json.companies);
         if (json.success) {
           set((state) => ({
             companies: [...state.companies, json.companies],

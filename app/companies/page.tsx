@@ -30,6 +30,7 @@ import Wrapper from "@/src/components/ui/wrapper";
 import { useState } from "react";
 import { useCompanyStore } from "@/src/stores/companyStore";
 import { AddCompany } from "@/src/components/company/add-company";
+import { useUserStore } from "@/src/stores/userStore";
 
 export default function Companytable() {
   const [sorting, setSorting] = React.useState<SortingState>([]);
@@ -38,11 +39,17 @@ export default function Companytable() {
   );
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
-  const { companies, fetchCompanies, addCompany, isLoading } = useCompanyStore();
+  const { companies, fetchCompanies, addCompany, isLoading } =
+    useCompanyStore();
+  const user = useUserStore((state) => state.user);
+
+  const visibleColumns = companyColumn.filter(
+    (col) => !(col.meta?.hideWhenNoUser && !user)
+  );
 
   const table = useReactTable({
     data: companies,
-    columns: companyColumn,
+    columns: visibleColumns,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
@@ -73,7 +80,7 @@ export default function Companytable() {
   }, []);
 
   useEffect(() => {
-    console.log('cimpanies',companies);
+    console.log("cimpanies", companies);
   }, [companies]);
 
   if (isLoading) {
@@ -103,9 +110,10 @@ export default function Companytable() {
             className="max-w-sm"
           />
           <div className="flex gap-x-2">
-            <Button variant="outline" onClick={handleAdd}>
+            {user &&  <Button variant="outline" onClick={handleAdd}>
               Send Mail <Send />
-            </Button>
+            </Button>}
+           
             <AddCompany />
           </div>
         </div>
@@ -185,5 +193,5 @@ export default function Companytable() {
         </div>
       </Wrapper>
     </div>
-  ) 
+  );
 }

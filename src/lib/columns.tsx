@@ -27,6 +27,7 @@ export const companyColumn: ColumnDef<Company>[] = [
     ),
     enableSorting: false,
     enableHiding: false,
+    meta: { hideWhenNoUser: true },
   },
   {
     accessorKey: "name",
@@ -35,6 +36,13 @@ export const companyColumn: ColumnDef<Company>[] = [
       console.log("row ", row);
       return <div className="font-medium">{row.getValue("name")}</div>;
     },
+    meta: { hideWhenNoUser: false },
+  },
+  {
+    accessorKey: "contactPerson",
+    header: "Contact",
+    cell: ({ row }) => <div>{row.getValue("contactPerson") || ""}</div>,
+    meta: { hideWhenNoUser: false },
   },
   {
     accessorKey: "email",
@@ -52,6 +60,13 @@ export const companyColumn: ColumnDef<Company>[] = [
     cell: ({ row }) => (
       <div className="lowercase px-3">{row.getValue("email")}</div>
     ),
+    meta: { hideWhenNoUser: false },
+  },
+  {
+    accessorKey: "industry",
+    header: "Industry",
+    cell: ({ row }) => <div>{row.getValue("industry") || "—"}</div>,
+    meta: { hideWhenNoUser: true },
   },
   {
     accessorKey: "status",
@@ -65,6 +80,7 @@ export const companyColumn: ColumnDef<Company>[] = [
         )}
       </div>
     ),
+    meta: { hideWhenNoUser: true },
   },
   {
     id: "actions",
@@ -73,5 +89,6 @@ export const companyColumn: ColumnDef<Company>[] = [
       const email = row.getValue("email");
       return <Button onClick={() => alert(email)}>Send</Button>;
     },
+    meta: { hideWhenNoUser: true },
   },
 ];

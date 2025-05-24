@@ -41,7 +41,7 @@ export function AddCompany() {
           <DialogHeader className="mb-3">
             <DialogTitle>Company Detail</DialogTitle>
           </DialogHeader>
-          <ProfileForm />
+          <AddCompanyForm />
         </DialogContent>
       </Dialog>
     );
@@ -58,7 +58,7 @@ export function AddCompany() {
         <DrawerHeader className="text-left">
           <DrawerTitle>Company Detail</DrawerTitle>
         </DrawerHeader>
-        <ProfileForm className="px-4" />
+        <AddCompanyForm className="px-4" />
         <DrawerFooter className="pt-2">
           <DrawerClose asChild>
             <Button variant="outline">Cancel</Button>
@@ -69,17 +69,27 @@ export function AddCompany() {
   );
 }
 
-function ProfileForm({ className }: React.ComponentProps<"form">) {
+function AddCompanyForm({ className }: React.ComponentProps<"form">) {
   const addCompany = useCompanyStore((s) => s.addCompany);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [contactPerson, setContactPerson] = useState("");
+  const [industry, setIndustry] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await addCompany({ name, email, id: "", status: false });
+      await addCompany({
+        id: "",
+        name,
+        email,
+        contactPerson,
+        industry,
+      });
       setName("");
       setEmail("");
+      setContactPerson("");
+      setIndustry("");
     } catch (err) {
       console.error(err);
       alert("Failed to add company");
@@ -92,7 +102,9 @@ function ProfileForm({ className }: React.ComponentProps<"form">) {
       onSubmit={handleSubmit}
     >
       <div className="grid gap-2">
-        <Label  className="text-foreground/80" htmlFor="username">Company name</Label>
+        <Label className="text-foreground/80" htmlFor="username">
+          Company name
+        </Label>
         <Input
           value={name}
           onChange={(e) => setName(e.target.value)}
@@ -100,7 +112,30 @@ function ProfileForm({ className }: React.ComponentProps<"form">) {
         />
       </div>
       <div className="grid gap-2">
-        <Label  className="text-foreground/80" htmlFor="email">HR email</Label>
+        <Label className="text-foreground/80" htmlFor="email">
+          Contact Person
+        </Label>
+        <Input
+          value={contactPerson}
+          onChange={(e) => setContactPerson(e.target.value)}
+          placeholder="HR/Contact Person"
+        />
+      </div>
+      <div className="grid gap-2">
+        <Label className="text-foreground/80" htmlFor="email">
+          Industry
+        </Label>
+        <Input
+          value={industry}
+          onChange={(e) => setIndustry(e.target.value)}
+          placeholder="Industry (e.g., Fintech)"
+        />
+      </div>
+
+      <div className="grid gap-2">
+        <Label className="text-foreground/80" htmlFor="email">
+          HR email
+        </Label>
         <Input
           value={email}
           onChange={(e) => setEmail(e.target.value)}
