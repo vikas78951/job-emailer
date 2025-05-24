@@ -18,7 +18,7 @@ const Header = () => {
           <Link href="/" className="block text-foreground uppercase font-semibold">Emailer</Link>
         </div>
 
-        <div className="flex lg:gap-x-12">
+        <div className="flex gap-x-2 md:gap-x-4 lg:gap-x-12">
           {navigation.map((item) => (
             <Link
               key={item.name}

@@ -24,8 +24,11 @@ export async function POST(req: Request) {
     const client = await clientPromise;
     const db = client.db();
     const result = await db.collection('companies').insertOne({ name, email });
-
-    return NextResponse.json({ success : true,insertedId: result.insertedId });
+    console.log('inserter',result)
+    return NextResponse.json({ success : true,companies: {
+      id : result.insertedId,
+      name , email
+    } });
   } catch (err) {
     return NextResponse.json({ success : false, error: (err as Error).message || 'Failed to add company' }, { status: 500 });
   }

@@ -12,7 +12,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { Plus, Send } from "lucide-react";
+import { Send } from "lucide-react";
 import { Button } from "@/src/components/ui/button";
 import { Input } from "@/src/components/ui/input";
 import { Skeleton } from "@/src/components/ui/skeleton";
@@ -29,6 +29,7 @@ import {
 import Wrapper from "@/src/components/ui/wrapper";
 import { useState } from "react";
 import { useCompanyStore } from "@/src/stores/companyStore";
+import { AddCompany } from "@/src/components/company/add-company";
 
 export default function Companytable() {
   const [sorting, setSorting] = React.useState<SortingState>([]);
@@ -37,8 +38,7 @@ export default function Companytable() {
   );
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
-  const { companies, fetchCompanies, addCompany, isLoading } =
-    useCompanyStore();
+  const { companies, fetchCompanies, addCompany, isLoading } = useCompanyStore();
 
   const table = useReactTable({
     data: companies,
@@ -69,8 +69,12 @@ export default function Companytable() {
   };
 
   useEffect(() => {
-    fetchCompanies(); // Loads from API only once
+    fetchCompanies();
   }, []);
+
+  useEffect(() => {
+    console.log('cimpanies',companies);
+  }, [companies]);
 
   if (isLoading) {
     return (
@@ -102,9 +106,7 @@ export default function Companytable() {
             <Button variant="outline" onClick={handleAdd}>
               Send Mail <Send />
             </Button>
-            <Button variant="outline" onClick={handleAdd}>
-              Add Company <Plus />
-            </Button>
+            <AddCompany />
           </div>
         </div>
         <div className="rounded-md border">
@@ -183,5 +185,5 @@ export default function Companytable() {
         </div>
       </Wrapper>
     </div>
-  );
+  ) 
 }

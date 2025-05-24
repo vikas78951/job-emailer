@@ -1,5 +1,5 @@
 import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown, X, Check, } from "lucide-react";
+import { ArrowUpDown, X, Check } from "lucide-react";
 
 import { Button } from "@/src/components/ui/button";
 import { Checkbox } from "@/src/components/ui/checkbox";
@@ -32,6 +32,7 @@ export const companyColumn: ColumnDef<Company>[] = [
     accessorKey: "name",
     header: () => <div className="">Company Name</div>,
     cell: ({ row }) => {
+      console.log("row ", row);
       return <div className="font-medium">{row.getValue("name")}</div>;
     },
   },
@@ -65,5 +66,12 @@ export const companyColumn: ColumnDef<Company>[] = [
       </div>
     ),
   },
-  
+  {
+    id: "actions",
+    header: () => <div className="">Action</div>,
+    cell: ({ row }) => {
+      const email = row.getValue("email");
+      return <Button onClick={() => alert(email)}>Send</Button>;
+    },
+  },
 ];
