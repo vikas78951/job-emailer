@@ -31,6 +31,7 @@ import { useState } from "react";
 import { useCompanyStore } from "@/src/stores/companyStore";
 import { AddCompany } from "@/src/components/company/add-company";
 import { useUserStore } from "@/src/stores/userStore";
+import Link from "next/link";
 
 export default function Companytable() {
   const [sorting, setSorting] = React.useState<SortingState>([]);
@@ -100,6 +101,9 @@ export default function Companytable() {
   return (
     <div className="w-full">
       <Wrapper>
+        <div>
+            {!user &&  <p className="text-sm text-red-600">Add your detail to use feature. <Link href={'/user'} className="text-blue-600 underline" >add details.</Link></p>}
+        </div>
         <div className="flex justify-between py-4">
           <Input
             placeholder="Filter companies..."

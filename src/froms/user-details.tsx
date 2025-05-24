@@ -17,6 +17,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/src/components/ui/form";
+import { toast } from "sonner"
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -118,6 +119,7 @@ const UserDetails = () => {
       lastName: data.lastName ?? "",
       attachments,
     });
+    toast("User Detail updated");
   }
 
   // Reset form + state + localStorage
