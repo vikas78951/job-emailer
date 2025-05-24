@@ -24,7 +24,7 @@ const Template = () => {
   //   };
 
   return (
-    <div className="grid mt-6 gap-6 lg:grid-cols-2">
+    <div className="grid mt-6 gap-14 lg:gap-6 lg:grid-cols-2">
          <MailTemplate />
          <PreviewTemplate />
      </div>

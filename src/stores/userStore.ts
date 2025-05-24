@@ -1,13 +1,24 @@
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import { persist, createJSONStorage } from "zustand/middleware";
 
+// Extend the User type to include attachments
 export type User = {
   firstName: string;
-  lastName: string;
+  lastName?: string;
   email: string;
   password: string;
   designation: string;
   linkedinUrl: string;
+  github?: string;
+  portfolio?: string;
+  certification?: string;
+  attachments?: Attachment[];
+};
+
+export type Attachment = {
+  name: string;
+  size: number;
+  type: string;
 };
 
 interface UserStore {
@@ -25,6 +36,7 @@ export const useUserStore = create<UserStore>()(
     }),
     {
       name: "user-store",
+      storage: createJSONStorage(() => localStorage),
     }
   )
 );
