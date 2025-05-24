@@ -14,7 +14,7 @@ const Header = () => {
         aria-label="Global"
         className="flex items-center justify-between p-6 lg:px-8"
       >
-        <div className="flex lg:flex-1">
+        <div className="flex">
           <Link href="/" className="block text-foreground uppercase font-semibold">Emailer</Link>
         </div>
 
