@@ -17,6 +17,8 @@ import { Button } from "@/src/components/ui/button";
 import { Input } from "@/src/components/ui/input";
 import { Skeleton } from "@/src/components/ui/skeleton";
 import { companyColumn } from "@/src/lib/columns";
+
+
 import { useEffect } from "react";
 import {
   Table,
@@ -33,6 +35,10 @@ import { AddCompany } from "@/src/components/company/add-company";
 import { useUserStore } from "@/src/stores/userStore";
 import Link from "next/link";
 
+type CompanyColumnMeta = {
+  hideWhenNoUser?: boolean;
+};
+
 export default function Companytable() {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -45,7 +51,7 @@ export default function Companytable() {
   const user = useUserStore((state) => state.user);
 
   const visibleColumns = companyColumn.filter(
-    (col) => !(col.meta?.hideWhenNoUser && !user)
+    (col) => !( (col.meta as CompanyColumnMeta)?.hideWhenNoUser && !user)
   );
 
   const table = useReactTable({
