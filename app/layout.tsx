@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Geist } from "next/font/google";
 import { ThemeProvider } from "@/src/components/common/theme-provider";
-import { Providers } from "@/src/lib/provider";
 import "./globals.css";
 import Header from "@/src/components/common/header";
 
@@ -48,7 +47,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <Header />
-          <Providers>{children}</Providers>
+          {children}
         </ThemeProvider>
       </body>
     </html>
