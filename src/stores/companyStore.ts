@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import { persist ,createJSONStorage} from "zustand/middleware";
 
 export type Company = {
   id: string;
@@ -49,7 +49,7 @@ export const useCompanyStore = create<CompanyStore>()(
     }),
     {
       name: "company-store",
-      storage: typeof window !== "undefined" ? localStorage : undefined,
+      storage: createJSONStorage(() => localStorage),
     }
   )
 );
