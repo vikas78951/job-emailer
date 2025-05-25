@@ -7,6 +7,8 @@ export type User = {
   lastName?: string;
   email: string;
   password: string;
+  number?: string;  
+  address?: string; 
   designation: string;
   linkedinUrl: string;
   github?: string;
@@ -19,6 +21,7 @@ export type Attachment = {
   name: string;
   size: number;
   type: string;
+  base64?: string;
 };
 
 interface UserStore {

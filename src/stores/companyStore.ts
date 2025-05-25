@@ -15,7 +15,7 @@ export const useCompanyStore = create<CompanyStore>()(
   persist(
     (set, get) => ({
       companies: [],
-      isLoading: false,
+      isLoading: true,
       fetchCompanies: async () => {
         if (get().companies.length > 0) return;
         set({ isLoading: true });

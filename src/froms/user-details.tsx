@@ -17,7 +17,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/src/components/ui/form";
-import { toast } from "sonner"
+import { toast } from "sonner";
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -29,9 +29,11 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/src/components/ui/tooltip";
-import { Info } from "lucide-react";
+import { Info, InfoIcon } from "lucide-react";
 import { useUserStore } from "@/src/stores/userStore";
 import { useEffect } from "react";
+import { fileToBase64 } from "../lib/utils";
+import Link from "next/link";
 
 // ------------------------
 // Types
@@ -41,19 +43,6 @@ export type Attachment = {
   name: string;
   size: number;
   type: string;
-};
-
-export type User = {
-  firstName: string;
-  lastName?: string;
-  email: string;
-  password: string;
-  designation: string;
-  linkedinUrl?: string;
-  github?: string;
-  portfolio?: string;
-  certification?: string;
-  attachments?: Attachment[];
 };
 
 // ------------------------
@@ -70,11 +59,16 @@ const FormSchema = z.object({
   portfolio: z.string().url().optional().or(z.literal("")),
   certification: z.string().url().optional().or(z.literal("")),
   attachments: z.any().optional(),
+  number: z
+    .string()
+    .min(10, "Enter a valid phone number")
+    .optional()
+    .or(z.literal("")),
+  address: z.string().optional().or(z.literal("")),
 });
 
 // ------------------------
 // Default Values
-// ------------------------
 const defaultValues: z.infer<typeof FormSchema> = {
   firstName: "",
   lastName: "",
@@ -86,6 +80,8 @@ const defaultValues: z.infer<typeof FormSchema> = {
   portfolio: "",
   certification: "",
   attachments: [],
+  number: "",
+  address: "",
 };
 
 const UserDetails = () => {
@@ -102,13 +98,20 @@ const UserDetails = () => {
   }, [user, form]);
 
   // Submit handler
-  function onSubmit(data: z.infer<typeof FormSchema>) {
-    const attachments =
-      data.attachments?.map((file: File) => ({
-        name: file.name,
-        size: file.size,
-        type: file.type,
-      })) ?? [];
+  async function onSubmit(data: z.infer<typeof FormSchema>) {
+    const attachments = data.attachments
+      ? await Promise.all(
+          data.attachments.map(async (file: File) => {
+            const base64 = await fileToBase64(file);
+            return {
+              name: file.name,
+              size: file.size,
+              type: file.type,
+              base64,
+            };
+          })
+        )
+      : [];
 
     setUser({
       ...data,
@@ -119,6 +122,7 @@ const UserDetails = () => {
       lastName: data.lastName ?? "",
       attachments,
     });
+
     toast("User Detail updated");
   }
 
@@ -172,7 +176,32 @@ const UserDetails = () => {
                 control={form.control}
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>{label}</FormLabel>
+                    <FormLabel>
+                      {label}
+                      {name === "password" && (
+                        <>
+                          <TooltipProvider>
+                            <Tooltip>
+                              <TooltipTrigger asChild>
+                                <InfoIcon className="!p-0" size={16} />
+                              </TooltipTrigger>
+                              <TooltipContent>
+                                <p className="text-background/80">
+                                  you need Google app password.
+                                  <Link
+                                    href="https://support.google.com/accounts/answer/185833?hl=en"
+                                    className="underline text-background"
+                                    target="_blank"
+                                  >
+                                    here see how to create one.
+                                  </Link>
+                                </p>
+                              </TooltipContent>
+                            </Tooltip>
+                          </TooltipProvider>
+                        </>
+                      )}
+                    </FormLabel>
                     <FormControl>
                       <Input
                         placeholder={placeholder}
@@ -189,6 +218,8 @@ const UserDetails = () => {
             {/* Optional Fields */}
             {(
               [
+                ["address", "Address", "mumbai, Maharashtra, India"],
+                ["number", "Number", "+91 1234567890"],
                 [
                   "linkedinUrl",
                   "LinkedIn",

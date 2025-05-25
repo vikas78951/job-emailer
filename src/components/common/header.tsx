@@ -5,6 +5,7 @@ import Link from "next/link";
 const navigation = [
   { name: "Companies", href: "/companies" },
   { name: "User Details", href: "/user" },
+  { name: "Log", href: "/log" },
 ];
 
 const Header = () => {

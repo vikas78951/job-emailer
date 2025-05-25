@@ -2,7 +2,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-interface Template {
+export interface Template {
   subject: string;
   body: string;
 }
@@ -16,11 +16,7 @@ interface TemplateStore {
 const defaultTemplate: Template = {
   subject: "Follow-up: Meeting to discuss your job opening",
   body: `
-To: {{email.mailid}}
-Subject: {{email.subject}}
-
-Hi '{{company.hr_name}}',To: {{email.mailid}}
-Subject: {{email.subject}}
+Hi {{company.contactPerson}},
 
 Let's have a meeting tomorrow to discuss the project. I've been reviewing the project details and have some ideas I'd like to share.
 
@@ -30,7 +26,7 @@ Looking forward to our meeting!
 
 Best regards,
 {{user.firstName}} {{user.lastName}}
-`.trim(),
+  `.trim(),
 };
 
 export const useTemplateStore = create<TemplateStore>()(
@@ -44,7 +40,7 @@ export const useTemplateStore = create<TemplateStore>()(
       resetTemplate: () => set({ template: defaultTemplate }),
     }),
     {
-      name: "email-template", 
+      name: "email-template",
     }
   )
 );

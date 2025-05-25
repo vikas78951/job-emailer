@@ -1,51 +1,32 @@
 "use client";
 
+import React from "react";
 import { useTemplateStore } from "@/src/stores/templateStore";
 import { useUserStore } from "@/src/stores/userStore";
 import { Card, CardContent } from "@/src/components/ui/card";
-import React from "react";
-
-function interpolate(template: string, data: Record<string, unknown>) {
-  return template.replace(/{{(.*?)}}/g, (_, key) => {
-    const value = key
-      .trim()
-      .split(".")
-      .reduce((obj: unknown, k: string) => {
-        if (obj && typeof obj === "object" && k in obj) {
-          return (obj as Record<string, unknown>)[k];
-        }
-        return undefined;
-      }, data);
-    return value ?? `[${key}]`;
-  });
-}
+import { interpolate } from "@/src/lib/utils";
 
 const PreviewTemplate = () => {
   const { template } = useTemplateStore();
-  const { user } = useUserStore();
+  const user = useUserStore((s) =>s.user);
 
-  // Mock company and email data
+  const defaultUser = {
+  firstName: "John",
+  lastName: "Doe",
+};
+
+
   const company = {
     name: "Acme Corp",
-    hr_name: "Alice",
+    contactPerson: "Alice",
     email: "alice@acme.com",
-  };
-
-  const email = {
-    subject: template.subject,
-    mailid: company.email,
+    industry: "IT",
   };
 
   const mailingData = {
-    user: user ?? {
-      firstName: "John",
-      lastName: "Doe",
-      email: "john@example.com",
-      designation: "Developer",
-      linkedinUrl: "https://linkedin.com/in/john",
-    },
+    user : user || defaultUser,
     company,
-    email,
+    template,
   };
 
   const renderedSubject = interpolate(template.subject, mailingData);
@@ -57,7 +38,7 @@ const PreviewTemplate = () => {
       <Card className="w-full h-full">
         <CardContent className="space-y-2">
           <pre className="text-sm text-muted-foreground whitespace-pre-wrap">
-            <strong>To:</strong> {email.mailid}
+            <strong>To:</strong> {mailingData.company.email}
             {"\n"}
             <strong>Subject:</strong> {renderedSubject}
             {"\n\n"}

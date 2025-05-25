@@ -16,9 +16,9 @@ import { Send } from "lucide-react";
 import { Button } from "@/src/components/ui/button";
 import { Input } from "@/src/components/ui/input";
 import { Skeleton } from "@/src/components/ui/skeleton";
-import { companyColumn } from "@/src/lib/columns";
-
-
+import { useCompanyColumns } from "@/src/lib/columns";
+import { useMailQueueStore } from "@/src/stores/mailQueue";
+import { toast } from "sonner";
 import { useEffect } from "react";
 import {
   Table,
@@ -46,12 +46,12 @@ export default function Companytable() {
   );
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
-  const { companies, fetchCompanies, addCompany, isLoading } =
-    useCompanyStore();
+  const { companies, fetchCompanies, isLoading } = useCompanyStore();
   const user = useUserStore((state) => state.user);
-
+  const companyColumn = useCompanyColumns();
+  const { addToQueue } = useMailQueueStore();
   const visibleColumns = companyColumn.filter(
-    (col) => !( (col.meta as CompanyColumnMeta)?.hideWhenNoUser && !user)
+    (col) => !((col.meta as CompanyColumnMeta)?.hideWhenNoUser && !user)
   );
 
   const table = useReactTable({
@@ -74,21 +74,25 @@ export default function Companytable() {
   });
 
   const handleAdd = () => {
-    addCompany({
-      id: crypto.randomUUID(),
-      name: "OpenAI",
-      email: "hr@openai.com",
-      status: false,
+    const rows = table.getFilteredRowModel().rows;
+
+    rows.forEach(({ original: company }) => {
+      addToQueue({
+        id: company.id,
+        name: company.name,
+        email: company.email,
+        industry: company.industry || "",
+        contactPerson: company.contactPerson || "",
+      });
     });
+
+    toast.success(`Queued ${rows.length} companies`);
   };
 
   useEffect(() => {
+    console.log('isLoading',isLoading)
     fetchCompanies();
   }, []);
-
-  useEffect(() => {
-    console.log("cimpanies", companies);
-  }, [companies]);
 
   if (isLoading) {
     return (
@@ -108,7 +112,14 @@ export default function Companytable() {
     <div className="w-full">
       <Wrapper>
         <div>
-            {!user &&  <p className="text-sm text-red-600">Add your detail to use feature. <Link href={'/user'} className="text-blue-600 underline" >add details.</Link></p>}
+          {!user && (
+            <p className="text-sm text-red-600">
+              Add your detail to use feature.{" "}
+              <Link href={"/user"} className="text-blue-600 underline">
+                add details.
+              </Link>
+            </p>
+          )}
         </div>
         <div className="flex justify-between py-4">
           <Input
@@ -120,10 +131,12 @@ export default function Companytable() {
             className="max-w-sm"
           />
           <div className="flex gap-x-2">
-            {user &&  <Button variant="outline" onClick={handleAdd}>
-              Send Mail <Send />
-            </Button>}
-           
+            {user && table.getSelectedRowModel().rows.length > 0 && (
+              <Button variant="outline" onClick={handleAdd}>
+                Send Mail <Send />
+              </Button>
+            )}
+
             <AddCompany />
           </div>
         </div>
