@@ -1,6 +1,7 @@
 import React from "react";
 import { ModeToggle } from "@/src/components/common/theme-toggle";
 import Link from "next/link";
+import Wrapper from "../ui/wrapper";
 
 const navigation = [
   { name: "Companies", href: "/companies" },
@@ -11,12 +12,13 @@ const navigation = [
 const Header = () => {
   return (
     <header className="z-10 relative">
-      <nav
+      <Wrapper>
+         <nav
         aria-label="Global"
-        className="flex items-center justify-between p-6 lg:px-8"
+        className="flex  flex-col md:flex-row gap-4 items-center justify-between py-6"
       >
         <div className="flex">
-          <Link href="/" className="block text-foreground uppercase font-semibold">Emailer</Link>
+          <Link href="/" className="block text-foreground uppercase font-semibold">VS-Emailer</Link>
         </div>
 
         <div className="flex gap-x-2 md:gap-x-4 lg:gap-x-12">
@@ -33,6 +35,7 @@ const Header = () => {
         </div>
         
       </nav>
+      </Wrapper>
     </header>
   );
 };

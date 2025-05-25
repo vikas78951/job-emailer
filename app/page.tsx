@@ -1,6 +1,9 @@
+import {  MoveRight } from "lucide-react";
+import Link from "next/link";
+
 export default function page() {
   return (
-    <div className="relative isolate px-6 pt-14 lg:px-8">
+    <div className="relative isolate px-6   lg:px-8">
       <div
         aria-hidden="true"
         className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
@@ -15,12 +18,9 @@ export default function page() {
       </div>
       <div className="mx-auto max-w-2xl py-10">
         <div className="hidden sm:mb-8 sm:flex sm:justify-center">
-          <div className="relative rounded-full px-3 py-1 text-sm/6 text-foreground/70 ring-1 ring-foreground-900/10 hover:ring-foreground-900/20">
-            Just a liggle thing youneed
-            <a href="#" className="font-semibold text-indigo-600 ml-1">
-              <span aria-hidden="true" className="absolute inset-0" />
-              Read more <span aria-hidden="true">&rarr;</span>
-            </a>
+          <div className="relative rounded-full px-6 py-1 text-sm/6 text-foreground/70 ring-1 ring-foreground-900/10 hover:ring-foreground-900/20">
+            Just a little thing you need
+            
           </div>
         </div>
         <div className="text-center">
@@ -33,24 +33,24 @@ export default function page() {
             your outreach efficiently — all in one place.
           </p>
           <div className="mt-10 flex items-center justify-center gap-x-6">
-            <a
+            <Link
               href="/companies"
               className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             >
               Get started
-            </a>
-            <a
+            </Link>
+            <Link
               href="/template"
-              className="text-sm/6 font-semibold text-foreground"
+              className="text-sm/6 font-semibold text-foreground flex gap-1 items-center "
             >
-              See Template <span aria-hidden="true">→</span>
-            </a>
+              See Template <MoveRight size={16}/>
+            </Link>
           </div>
         </div>
       </div>
       <div
         aria-hidden="true"
-        className="absolute inset-x-0 top-[calc(100%-13rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-30rem)]"
+        className="absolute inset-x-0 top-[calc(100%-13rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-70rem)]"
       >
         <div
           style={{

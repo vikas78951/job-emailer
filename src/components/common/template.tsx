@@ -6,7 +6,7 @@ import PreviewTemplate from "@/src/froms/preview-mail-template";
 const Template = () => {
 
   return (
-    <div className="grid mt-6 gap-14 lg:gap-6 lg:grid-cols-2">
+    <div className="flex flex-col lg:flex-row my-16 gap-6  ">
          <MailTemplate />
          <PreviewTemplate />
      </div>

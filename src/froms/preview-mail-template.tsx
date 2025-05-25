@@ -33,7 +33,7 @@ const PreviewTemplate = () => {
   const renderedBody = interpolate(template.body, mailingData);
 
   return (
-    <div className="h-full">
+    <div className="h-full lg:w-1/2">
       <h1 className="text-foreground/80 p-2">Preview</h1>
       <Card className="w-full h-full">
         <CardContent className="space-y-2">

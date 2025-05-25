@@ -158,7 +158,7 @@ const UserDetails = () => {
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className="grid md:grid-cols-2 gap-6"
+            className="grid  grid-cols-2 gap-6"
           >
             {/* Required Fields */}
             {(

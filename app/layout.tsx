@@ -6,6 +6,7 @@ import Header from "@/src/components/common/header";
 import { Toaster } from "@/src/components/ui/sonner";
 import EmailSender from "@/src/components/common/EmailSender";
 
+import Footer from "@/src/components/common/footer";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -48,11 +49,13 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <Header />
-          {children}
+          <div className="flex flex-col min-h-screen">
+            <Header />
+            <main className="grow-1">{children}</main>
+            <Footer />
+          </div>
           <Toaster />
           <EmailSender />
-          
         </ThemeProvider>
       </body>
     </html>

@@ -10,7 +10,7 @@ const MailTemplate = () => {
   const { template, updateTemplate, resetTemplate } = useTemplateStore();
 
   return (
-    <div className="h-full">
+    <div className="h-full lg:w-1/2">
       <h1 className="text-foreground/80 p-2">Template</h1>
       <Card className="w-full h-full">
         <CardContent className="space-y-4">
