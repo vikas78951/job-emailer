@@ -4,7 +4,6 @@ import { Button } from "@/src/components/ui/button";
 import { Checkbox } from "@/src/components/ui/checkbox";
 import type { Company } from "@/src/types/definition";
 import { useMailQueueStore } from "@/src/stores/mailQueue";
-import { toast } from "sonner";
 import { useUserStore } from "../stores/userStore";
 export function useCompanyColumns() {
   const { addToQueue } = useMailQueueStore();
@@ -48,7 +47,7 @@ export function useCompanyColumns() {
       cell: ({ row }) => <div>{row.getValue("contactPerson") || "—"}</div>,
       meta: { hideWhenNoUser: false },
     },
-       {
+    {
       accessorKey: "number",
       header: "Number",
       cell: ({ row }) => <div>{row.getValue("number") || "—"}</div>,
@@ -87,10 +86,6 @@ export function useCompanyColumns() {
         const alreadySent =
           user &&
           sent.some((entry) => {
-            // console.log(
-            //   ` checking if ${user?.email} have sent mail to ${entry.userEmail}`
-            // );
-
             return entry.userEmail === user.email;
           });
         return (
@@ -121,10 +116,7 @@ export function useCompanyColumns() {
                   industry: company.industry || "",
                   contactPerson: company.contactPerson || "",
                 });
-                toast.loading(`Sending mail to ${row.original?.name}`);
-                setTimeout(() => {
-                  toast.dismiss();
-                }, 2000);
+               
               }}
             >
               Send

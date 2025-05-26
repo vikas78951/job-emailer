@@ -56,7 +56,6 @@ export async function POST(req: NextRequest) {
       attachments,
     };
 
-    console.log("mail =>", mail);
 
     await transporter.sendMail(mail);
     const client = await clientPromise;

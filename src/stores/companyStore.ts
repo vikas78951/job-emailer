@@ -42,7 +42,6 @@ export const useCompanyStore = create<CompanyStore>()(
         });
 
         const json = await res.json();
-        console.log("json", json.companies);
         if (json.success) {
           set((state) => ({
             companies: [...state.companies, json.companies],

@@ -15,13 +15,11 @@ export default function EmailSender() {
   const { updateCompany } = useCompanyStore();
 
   useEffect(() => {
-    console.log("present queue =>", queue);
     const nextItem = queue.find(
-      (item) => item.status === "queued" || item.status === "failed"
+      (item) => item.status === "queued" 
     );
-
+    console.log('nextItem',nextItem)
     if (!nextItem || !user || !template) return;
-    console.info("sending mail to :", nextItem.company.name);
 
     const sendMail = async () => {
       updateStatus(nextItem.company.id, "sending");
@@ -43,8 +41,8 @@ export default function EmailSender() {
         },
       };
 
-      console.log("body =>", body);
       try {
+        toast.loading(`Sending mail to ${nextItem.company.name}`);
         const res = await fetch("/api/sendEmail", {
           method: "POST",
           headers: {
@@ -56,21 +54,24 @@ export default function EmailSender() {
         if (!res.ok) throw new Error("Failed to send");
 
         updateStatus(nextItem.company.id, "sent");
-        updateCompany({
-          ...nextItem.company,
-          sent: [
-            ...(nextItem.company.sent ?? []),
-            {
-              userEmail: user.email,
-              sentAt: new Date().toISOString(),  
-            },
-          ],
-        });
+        // updateCompany({
+        //   ...nextItem.company,
+        //   sent: [
+        //     ...(nextItem.company.sent ?? []),
+        //     {
+        //       userEmail: user.email,
+        //       sentAt: new Date().toISOString(),
+        //     },
+        //   ],
+        // });
         toast.success(`Sent mail to ${nextItem.company.name}`);
+           toast.dismiss()
       } catch (err) {
         updateStatus(nextItem.company.id, "failed");
-        toast.error(`Failed to send to ${nextItem.company.name}`);
-        console.log(`${(err as Error).message}`);
+        toast.error(
+          ` Error : ${(err as Error).message}  ${nextItem.company.name}`
+        );
+        toast.dismiss()
       }
     };
 
