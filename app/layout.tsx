@@ -5,6 +5,7 @@ import "./globals.css";
 import Header from "@/src/components/common/header";
 import { Toaster } from "@/src/components/ui/sonner";
 import EmailSender from "@/src/components/common/EmailSender";
+import Head from "next/head";
 
 import Footer from "@/src/components/common/footer";
 const geistSans = Geist({
@@ -40,6 +41,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <Head>
+        <link rel="icon" href="/favicon.png" sizes="any" />
+      </Head>
       <body
         className={`${geistSans.variable} ${geistSans.variable} ${geistSans.className} antialiased bg-background relative`}
       >

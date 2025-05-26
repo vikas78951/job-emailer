@@ -48,6 +48,12 @@ export function useCompanyColumns() {
       cell: ({ row }) => <div>{row.getValue("contactPerson") || "—"}</div>,
       meta: { hideWhenNoUser: false },
     },
+       {
+      accessorKey: "number",
+      header: "Number",
+      cell: ({ row }) => <div>{row.getValue("number") || "—"}</div>,
+      meta: { hideWhenNoUser: false },
+    },
     {
       accessorKey: "email",
       header: ({ column }) => {

@@ -9,6 +9,7 @@ export type Company = {
   email: string;
   status?: boolean;
   contactPerson?: string;
+  number? : string;
   industry?: string;
   sent?: SentEmail[];
 };

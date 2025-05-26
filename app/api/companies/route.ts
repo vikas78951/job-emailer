@@ -21,7 +21,7 @@ export async function GET() {
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { name, email, contactPerson, industry } = body;
+    const { name, email, contactPerson, industry,number } = body;
 
     if (!name || !email) {
       return NextResponse.json(
@@ -35,6 +35,7 @@ export async function POST(req: Request) {
       name,
       email,
       contactPerson,
+      number,
       industry,
     });
 
@@ -46,6 +47,7 @@ export async function POST(req: Request) {
         email,
         contactPerson,
         industry,
+        number
       },
     });
   } catch (err) {
