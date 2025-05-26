@@ -12,13 +12,11 @@ export default function EmailSender() {
   const { queue, updateStatus } = useMailQueueStore();
   const user = useUserStore((state) => state.user);
   const template = useTemplateStore((state) => state.template);
-  const { updateCompany } = useCompanyStore();
+  const { updateCompanySentStatus } = useCompanyStore();
 
   useEffect(() => {
-    const nextItem = queue.find(
-      (item) => item.status === "queued" 
-    );
-    console.log('nextItem',nextItem)
+    const nextItem = queue.find((item) => item.status === "queued");
+    console.log("nextItem", nextItem);
     if (!nextItem || !user || !template) return;
 
     const sendMail = async () => {
@@ -54,24 +52,15 @@ export default function EmailSender() {
         if (!res.ok) throw new Error("Failed to send");
 
         updateStatus(nextItem.company.id, "sent");
-        // updateCompany({
-        //   ...nextItem.company,
-        //   sent: [
-        //     ...(nextItem.company.sent ?? []),
-        //     {
-        //       userEmail: user.email,
-        //       sentAt: new Date().toISOString(),
-        //     },
-        //   ],
-        // });
+        updateCompanySentStatus(nextItem.company.id, user.email);
         toast.success(`Sent mail to ${nextItem.company.name}`);
-           toast.dismiss()
+        toast.dismiss();
       } catch (err) {
         updateStatus(nextItem.company.id, "failed");
         toast.error(
           ` Error : ${(err as Error).message}  ${nextItem.company.name}`
         );
-        toast.dismiss()
+        toast.dismiss();
       }
     };
 

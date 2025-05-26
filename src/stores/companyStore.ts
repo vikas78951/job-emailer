@@ -7,7 +7,7 @@ interface CompanyStore {
   isLoading: boolean;
   fetchCompanies: () => Promise<void>;
   addCompany: (newCompany: Company) => void;
-  updateCompany: (updated: Company) => void;
+  updateCompanySentStatus: (companyId: string, userEmail: string) => void;
   clearCompanies: () => void;
 }
 
@@ -50,12 +50,26 @@ export const useCompanyStore = create<CompanyStore>()(
           throw new Error(json.message || "Failed to add company");
         }
       },
-      updateCompany: (updated) =>
-        set((state) => ({
-          companies: state.companies.map((c) =>
-            c.id === updated.id ? updated : c
-          ),
-        })),
+      updateCompanySentStatus: (companyId: string, userEmail: string) =>
+        set((state) => {
+          return {
+            companies: state.companies.map((company) => {
+              if (company.id !== companyId) return company;
+
+              const updatedSent = [
+                ...(company.sent?.filter(
+                  (entry) => entry.userEmail !== userEmail
+                ) ?? []),
+                {
+                  userEmail,
+                  sentAt: new Date().toISOString(),
+                },
+              ];
+
+              return { ...company, sent: updatedSent };
+            }),
+          };
+        }),
       clearCompanies: () => set({ companies: [] }),
     }),
     {

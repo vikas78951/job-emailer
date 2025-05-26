@@ -84,10 +84,8 @@ export function useCompanyColumns() {
         const company = row.original;
         const sent = company.sent || [];
         const alreadySent =
-          user &&
-          sent.some((entry) => {
-            return entry.userEmail === user.email;
-          });
+          user && sent.some((entry) => entry.userEmail === user.email);
+
         return (
           <div className="capitalize">
             {alreadySent ? (
@@ -116,7 +114,6 @@ export function useCompanyColumns() {
                   industry: company.industry || "",
                   contactPerson: company.contactPerson || "",
                 });
-               
               }}
             >
               Send
