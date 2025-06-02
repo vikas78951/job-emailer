@@ -1,9 +1,7 @@
 "use client";
 import React from "react";
 import { Button } from "@/src/components/ui/button";
-import { Loader, Plus } from "lucide-react";
-import { useCompanyStore } from "@/src/stores/companyStore";
-import { cn } from "@/src/lib/utils";
+import { Plus } from "lucide-react";
 import { useMediaQuery } from "@/src/hooks/use-media-query";
 import {
   Dialog,
@@ -12,161 +10,44 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/src/components/ui/dialog";
-import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
-} from "@/src/components/ui/drawer";
-import { Input } from "@/src/components/ui/input";
-import { Label } from "@/src/components/ui/label";
-import { useState } from "react";
-import { toast } from "sonner";
+
+import AddCompanyJson from "./add-company-via-json";
+import AddCompanyForm from "./add-company-via-form";
 
 export function AddCompany() {
   const [open, setOpen] = React.useState(false);
+  const [withJson, setWithJson] = React.useState(false);
   const isDesktop = useMediaQuery("(min-width: 768px)");
 
-  if (isDesktop) {
-    return (
-      <Dialog open={open} onOpenChange={setOpen}>
-        <DialogTrigger asChild>
-          <Button variant="outline">
-            Add Company <Plus />
-          </Button>
-        </DialogTrigger>
-        <DialogContent className="sm:max-w-[425px] ">
-          <DialogHeader className="mb-3">
-            <DialogTitle>Company Detail</DialogTitle>
-          </DialogHeader>
-          <AddCompanyForm />
-        </DialogContent>
-      </Dialog>
-    );
-  }
-
   return (
-    <Drawer open={open} onOpenChange={setOpen}>
-      <DrawerTrigger asChild>
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>
         <Button variant="outline">
           Add Company <Plus />
         </Button>
-      </DrawerTrigger>
-      <DrawerContent>
-        <DrawerHeader className="text-left">
-          <DrawerTitle>Company Detail</DrawerTitle>
-        </DrawerHeader>
-        <AddCompanyForm className="px-4" />
-        <DrawerFooter className="pt-2">
-          <DrawerClose asChild>
-            <Button variant="outline">Cancel</Button>
-          </DrawerClose>
-        </DrawerFooter>
-      </DrawerContent>
-    </Drawer>
-  );
-}
-
-function AddCompanyForm({ className }: React.ComponentProps<"form">) {
-  const addCompany = useCompanyStore((s) => s.addCompany);
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [contactPerson, setContactPerson] = useState("");
-  const [industry, setIndustry] = useState("");
-  const [number, setNumber] = useState("");
-  const [loading, setLoading] = useState(false);
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    try {
-      await addCompany({
-        id: "",
-        name: name === "" ? "Hr Team" : name,
-        email,
-        contactPerson,
-        number,
-        industry,
-      });
-      setName("");
-      setEmail("");
-      setContactPerson("");
-      setIndustry("");
-      setNumber("");
-      toast.success(name + " added");
-    } catch (err) {
-      console.error(err);
-      alert("Failed to add company");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  return (
-    <form
-      className={cn("grid items-start gap-4", className)}
-      onSubmit={handleSubmit}
-    >
-      <div className="grid gap-2">
-        <Label className="text-foreground/80" htmlFor="username">
-          Company name
-        </Label>
-        <Input
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          placeholder="Company Name"
-        />
-      </div>
-      <div className="grid gap-2">
-        <Label className="text-foreground/80" htmlFor="email">
-          Contact Person
-        </Label>
-        <Input
-          value={contactPerson}
-          onChange={(e) => setContactPerson(e.target.value)}
-          placeholder="HR/Contact Person"
-        />
-      </div>
-
-      <div className="grid gap-2">
-        <Label className="text-foreground/80" htmlFor="email">
-          HR email
-        </Label>
-        <Input
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="HR Email"
-        />
-      </div>
-
-      <div className="grid gap-2">
-        <Label className="text-foreground/80" htmlFor="email">
-          Contact Number
-        </Label>
-        <Input
-          value={number}
-          onChange={(e) => setNumber(e.target.value)}
-          placeholder="9876542242"
-        />
-      </div>
-
-      <div className="grid gap-2">
-        <Label className="text-foreground/80" htmlFor="email">
-          Industry
-        </Label>
-        <Input
-          value={industry}
-          onChange={(e) => setIndustry(e.target.value)}
-          placeholder="Industry (e.g., Fintech)"
-        />
-      </div>
-
-      <Button type="submit" disabled={loading}>
-        {loading && <Loader size={16} className="animate-spin mr-2" />}
-        Add company
-      </Button>
-    </form>
+      </DialogTrigger>
+      <DialogContent
+        className={`sm:max-w-[425px] gap-0 ${
+          !isDesktop &&
+          "max-h-[400px] max-w-[300px] overflow-scroll scroll-p-[20px]"
+        }`}
+      >
+        <DialogHeader className="mb-3">
+          <DialogTitle>Company Detail</DialogTitle>
+        </DialogHeader>
+        <>
+          <div className="flex justify-between">
+            <Button
+              className="ml-auto"
+              variant={"ghost"}
+              onClick={() => setWithJson(!withJson)}
+            >
+              {withJson ? "Add with Form" : "Add with JSON"}
+            </Button>
+          </div>
+          {withJson ? <AddCompanyJson /> : <AddCompanyForm />}
+        </>
+      </DialogContent>
+    </Dialog>
   );
 }

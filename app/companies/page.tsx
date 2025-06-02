@@ -120,7 +120,7 @@ export default function Companytable() {
             </p>
           )}
         </div>
-        <div className="flex justify-between py-4">
+        <div className="flex justify-between py-4 gap-4">
           <Input
             placeholder="Filter companies..."
             value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
