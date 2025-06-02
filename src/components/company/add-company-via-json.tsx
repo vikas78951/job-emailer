@@ -76,6 +76,7 @@ function AddCompanyJson({ className }: React.ComponentProps<"form">) {
           value={json}
           onChange={(e) => setJson(e.target.value)}
           placeholder={JSON.stringify(sample)}
+          className="max-h-[400px]"
         />
       </div>
 
