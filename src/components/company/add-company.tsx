@@ -33,7 +33,7 @@ export function AddCompany() {
         }`}
       >
         <DialogHeader className="mb-3">
-          <DialogTitle>Company Detail</DialogTitle>
+          <DialogTitle className="text-left">Company Detail</DialogTitle>
         </DialogHeader>
         <>
           <div className="flex justify-between">
