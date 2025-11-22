@@ -9,17 +9,17 @@ const Footer = () => {
     <footer className="w-full border-t border-border py-4 text-sm text-muted-foreground">
       <div className="container mx-auto flex flex-col md:flex-row items-center justify-between gap-4 px-4">
         <p>
-          © {new Date().getFullYear()} VS-Emailer — Built by Vikas.
+          © {new Date().getFullYear()} Emailer — Built by Vikas.
         </p>
         <div className="flex items-center gap-4">
           <Link
-            href="mailto:vikrant78951@gmail.com"
+            href="mailto:vikass78951@gmail.com"
             className="hover:text-foreground flex items-center gap-1"
           >
             <Mail size={16} /> Contact
           </Link>
           <Link
-            href="https://github.com/vikrant78951/vs-emailer"
+            href="https://github.com/vikass78951/Emailer"
             target="_blank"
             className="hover:text-foreground flex items-center gap-1"
           >

@@ -17,12 +17,12 @@ export const metadata: Metadata = {
   title: "VS/Emailer",
   description:
     "This application is used to send emails for different companies.",
-  metadataBase: new URL("https://vs-emailer.vercel.app/"),
+  metadataBase: new URL("https://Emailer.vercel.app/"),
   openGraph: {
     title: "VS/Emailer",
     description:
       "This application is used to send emails for different companies.",
-    url: "https://vs-emailer.vercel.app/",
+    url: "https://Emailer.vercel.app/",
     siteName: "VS/Emailer",
     type: "website",
   },

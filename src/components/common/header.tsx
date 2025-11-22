@@ -18,7 +18,7 @@ const Header = () => {
         className="flex  flex-col md:flex-row gap-4 items-center justify-between py-6"
       >
         <div className="flex">
-          <Link href="/" className="block text-foreground uppercase font-semibold">VS-Emailer</Link>
+          <Link href="/" className="block text-foreground uppercase font-semibold">Emailer</Link>
         </div>
 
         <div className="flex gap-x-2 md:gap-x-4 lg:gap-x-12">
