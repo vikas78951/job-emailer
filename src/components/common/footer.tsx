@@ -19,7 +19,7 @@ const Footer = () => {
             <Mail size={16} /> Contact
           </Link>
           <Link
-            href="https://github.com/vikass78951/Emailer"
+            href="https://github.com/vikas78951/job-emailer"
             target="_blank"
             className="hover:text-foreground flex items-center gap-1"
           >
