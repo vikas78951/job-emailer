@@ -1,5 +1,3 @@
-
-
 "use client";
 import React from "react";
 import { Button } from "@/src/components/ui/button";
@@ -10,8 +8,6 @@ import { Input } from "@/src/components/ui/input";
 import { Label } from "@/src/components/ui/label";
 import { useState } from "react";
 import { toast } from "sonner";
-
-
 
 function AddCompanyForm({ className }: React.ComponentProps<"form">) {
   const addCompany = useCompanyStore((s) => s.addCompany);
@@ -91,7 +87,7 @@ function AddCompanyForm({ className }: React.ComponentProps<"form">) {
         <Input
           value={number}
           onChange={(e) => setNumber(e.target.value)}
-          placeholder="9876542242"
+          placeholder="98********"
         />
       </div>
 
@@ -114,4 +110,4 @@ function AddCompanyForm({ className }: React.ComponentProps<"form">) {
   );
 }
 
-export default AddCompanyForm
+export default AddCompanyForm;

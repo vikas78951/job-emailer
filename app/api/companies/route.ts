@@ -1,11 +1,12 @@
 import { NextResponse } from "next/server";
 import clientPromise from "@/src/lib/mongodb";
+import { DATABASE_CONFIG } from "@/src/lib/constants";
 
 export async function GET() {
   try {
     const client = await clientPromise;
-    const db = client.db();
-    const companies = await db.collection("companies").find({}).toArray();
+    const db = client.db(DATABASE_CONFIG.database);
+    const companies = await db.collection(DATABASE_CONFIG.collection).find({}).toArray();
     return NextResponse.json({ success: true, companies });
   } catch (err) {
     return NextResponse.json(
@@ -30,8 +31,8 @@ export async function POST(req: Request) {
       );
     }
     const client = await clientPromise;
-    const db = client.db();
-    const result = await db.collection("companies").insertOne({
+    const db = client.db(DATABASE_CONFIG.database);
+    const result = await db.collection(DATABASE_CONFIG.collection).insertOne({
       name,
       email,
       contactPerson,

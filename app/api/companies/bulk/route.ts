@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import clientPromise from "@/src/lib/mongodb";
 import { ObjectId } from "mongodb";
+import { DATABASE_CONFIG } from "@/src/lib/constants";
 
 export async function POST(req: Request) {
   try {
@@ -43,10 +44,10 @@ export async function POST(req: Request) {
     }
 
     const client = await clientPromise;
-    const db = client.db();
+    const db = client.db(DATABASE_CONFIG.database);
 
     const result = await db
-      .collection("companies")
+      .collection(DATABASE_CONFIG.collection)
       .insertMany(filteredCompanies);
 
     const insertedCompanies = filteredCompanies.map((company, idx) => ({

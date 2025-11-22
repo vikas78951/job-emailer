@@ -182,7 +182,7 @@ export default function Companytable() {
                     colSpan={companyColumn.length}
                     className="h-24 text-center"
                   >
-                    No results.
+                    No record found.
                   </TableCell>
                 </TableRow>
               )}

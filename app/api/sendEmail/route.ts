@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import nodemailer from "nodemailer";
 import clientPromise from "@/src/lib/mongodb";
+import { DATABASE_CONFIG } from "@/src/lib/constants";
 
 // This type is used only for sending email, includes base64!
 type AttachmentWithBase64 = {
@@ -59,7 +60,7 @@ export async function POST(req: NextRequest) {
 
     await transporter.sendMail(mail);
     const client = await clientPromise;
-    const db = client.db();
+    const db = client.db(DATABASE_CONFIG.database);
 
     await db.collection("companies").updateOne(
       { email: company.email },

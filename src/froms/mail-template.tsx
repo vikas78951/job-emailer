@@ -31,7 +31,22 @@ const MailTemplate = () => {
               rows={14}
             />
           </div>
+          <div>
+            <span className="min-w-20 mr-2 pt-1">Use dynamic keyword : </span>
+            <span className="mx-2">{"{{company.contactPerson}}"}</span>
+            <span className="mx-2">{"{{company.name}}"}</span>
+            <span className="mx-2">{"{{user.firstName}}"}</span>
+            <span className="mx-2">{"{{user.lastName}}"}</span>
+            <span className="mx-2">{"{{user.email}}"}</span>
+            <span className="mx-2">{"{{user.designation}}"}</span>
+            <span className="mx-2">{"{{user.address}}"}</span>
+            <span className="mx-2">{"{{user.number}}"}</span>
+            <span className="mx-2">{"{{user.linkedin}}"}</span>
+            <span className="mx-2">{"{{user.github}}"}</span>
+            <span className="mx-2">{"{{user.portfolio}}"}</span>
+          </div>
         </CardContent>
+
         <CardFooter className="flex justify-end gap-2">
           <Button variant="secondary" onClick={resetTemplate}>
             Reset to Default

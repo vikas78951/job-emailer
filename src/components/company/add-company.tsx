@@ -13,10 +13,15 @@ import {
 
 import AddCompanyJson from "./add-company-via-json";
 import AddCompanyForm from "./add-company-via-form";
+import {
+  Tabs,
+  TabsList,
+  TabsContent,
+  TabsTrigger,
+} from "@/src/components/ui/tabs";
 
 export function AddCompany() {
   const [open, setOpen] = React.useState(false);
-  const [withJson, setWithJson] = React.useState(false);
   const isDesktop = useMediaQuery("(min-width: 768px)");
 
   return (
@@ -35,18 +40,20 @@ export function AddCompany() {
         <DialogHeader className="mb-3">
           <DialogTitle className="text-left">Company Detail</DialogTitle>
         </DialogHeader>
-        <>
-          <div className="flex justify-between">
-            <Button
-              className="ml-auto"
-              variant={"ghost"}
-              onClick={() => setWithJson(!withJson)}
-            >
-              {withJson ? "Add with Form" : "Add with JSON"}
-            </Button>
-          </div>
-          {withJson ? <AddCompanyJson /> : <AddCompanyForm />}
-        </>
+        <div className="flex w-full max-w-sm flex-col gap-6">
+          <Tabs defaultValue="form">
+            <TabsList className="my-4  ">
+              <TabsTrigger value="form">Add with Form</TabsTrigger>
+              <TabsTrigger value="json">Add with Json</TabsTrigger>
+            </TabsList>
+            <TabsContent value="form">
+              <AddCompanyForm />
+            </TabsContent>
+            <TabsContent value="json">
+              <AddCompanyJson />
+            </TabsContent>
+          </Tabs>
+        </div>
       </DialogContent>
     </Dialog>
   );

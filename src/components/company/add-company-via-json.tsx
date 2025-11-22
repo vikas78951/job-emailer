@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { Button } from "@/src/components/ui/button";
-import { Loader } from "lucide-react";
+import { Copy, Loader } from "lucide-react";
 import { useCompanyStore } from "@/src/stores/companyStore";
 import { cn } from "@/src/lib/utils";
 import { Textarea } from "@/src/components/ui/textarea";
@@ -20,16 +20,6 @@ export const SingleCompanySchema = z.object({
 
 export const CompanyJsonArraySchema = z.array(SingleCompanySchema);
 
-const sample = [
-  {
-    name: "Company ",
-    email: "company@example.com",
-    contactPerson: "Cimpany Name",
-    number: "+91-9876543210",
-    industry: "Tech",
-  }
-];
-
 function AddCompanyJson({ className }: React.ComponentProps<"form">) {
   const addCompanyWithJson = useCompanyStore((s) => s.addCompanyWithJson);
   const [json, setJson] = useState("");
@@ -40,12 +30,8 @@ function AddCompanyJson({ className }: React.ComponentProps<"form">) {
     setLoading(true);
 
     try {
-      const parsed = JSON.parse(json);
-      const companies = CompanyJsonArraySchema.parse(parsed);
-
+      const companies = CompanyJsonArraySchema.parse(json);
       await addCompanyWithJson(companies);
-
-      setJson("");
       toast.success("Companies added successfully");
     } catch (err) {
       console.error(err);
@@ -61,6 +47,24 @@ function AddCompanyJson({ className }: React.ComponentProps<"form">) {
       setLoading(false);
     }
   };
+  const handleCopyClick = async () => {
+    const data = [
+      {
+        name: "Company",
+        email: "company@example.com",
+        contactPerson: "Company Name",
+        number: "+91-9876543210",
+        industry: "Tech",
+      },
+    ];
+
+    try {
+      await navigator.clipboard.writeText(JSON.stringify(data));
+      toast.success("Copied to clipboard");
+    } catch (err) {
+      toast.error("Failed to copy data", { description: String(err) });
+    }
+  };
 
   return (
     <form
@@ -68,6 +72,7 @@ function AddCompanyJson({ className }: React.ComponentProps<"form">) {
       onSubmit={handleSubmit}
     >
       <div className="grid gap-2">
+         
         <Label className="text-foreground/80" htmlFor="company-json">
           Paste your json here
         </Label>
@@ -75,9 +80,13 @@ function AddCompanyJson({ className }: React.ComponentProps<"form">) {
           id="company-json"
           value={json}
           onChange={(e) => setJson(e.target.value)}
-          placeholder={JSON.stringify(sample)}
-          className="max-h-[400px]"
+          placeholder={""}
+          className="h-100 max-h-[280px]"
         />
+         <Button className="p-0 mt-2" variant="outline" type="button" onClick={handleCopyClick}>
+            Copy Sample
+            <Copy />
+          </Button>
       </div>
 
       <Button type="submit" disabled={loading}>
