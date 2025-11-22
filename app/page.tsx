@@ -40,7 +40,7 @@ export default function page() {
               Get started
             </Link>
             <Link
-              href="/template"
+              href="/user"
               className="text-sm/6 font-semibold text-foreground flex gap-1 items-center "
             >
               See Template <MoveRight size={16}/>
